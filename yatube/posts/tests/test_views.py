@@ -336,9 +336,9 @@ class PostViewsTests(TestCase):
         resp_cont_cache_clear = response().content
         self.assertNotEqual(resp_cont_post_del, resp_cont_cache_clear)
 
-    def test_author_user_follow_unfollow(self):
-        """Авторизованный пользователь может подписываться
-        на других пользователей и удалять их из подписок.
+    def test_author_user_follow(self):
+        """Авторизованный пользователь может подписаться
+        на других пользователей.
         """
         follow_obj = Follow.objects.filter(
             user=self.user_1,
@@ -350,6 +350,16 @@ class PostViewsTests(TestCase):
             kwargs={'username': self.user_2.username}
         ))
         follow_obj = Follow.objects.filter(
+            user=self.user_1,
+            author=self.user_2
+        )
+        self.assertTrue(follow_obj)
+
+    def test_author_user_unfollow(self):
+        """Авторизованный пользователь может отписаться
+        от подписок на других пользователей.
+        """
+        follow_obj = Follow.objects.create(
             user=self.user_1,
             author=self.user_2
         )

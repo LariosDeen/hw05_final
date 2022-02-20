@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posts',
+    'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'core',
     'sorl.thumbnail',

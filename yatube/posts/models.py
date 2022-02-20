@@ -6,14 +6,19 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, verbose_name='Название')
     slug = models.SlugField(
         max_length=200,
         unique=True,
         db_index=True,
         verbose_name='SLUG',
     )
-    description = models.TextField()
+    description = models.TextField(verbose_name='Описание')
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
     def __str__(self):
         return self.title
@@ -94,9 +99,22 @@ class Follow(models.Model):
         User,
         related_name='follower',
         on_delete=models.CASCADE,
+        verbose_name='Подписчик',
     )
     author = models.ForeignKey(
         User,
         related_name='following',
         on_delete=models.CASCADE,
+        verbose_name='Автор записей',
     )
+
+    class Meta:
+        verbose_name = 'Подписчик'
+        verbose_name_plural = 'Подписчики'
+        constraints = [models.UniqueConstraint(
+            fields=['user', 'author'],
+            name='unique_follow')
+        ]
+
+    def __str__(self):
+        return f'{self.user} --> {self.author}'

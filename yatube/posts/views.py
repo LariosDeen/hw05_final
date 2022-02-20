@@ -148,7 +148,7 @@ def profile_follow(request, username):
         user=user_obj,
         author=author_obj
     )
-    if not follow_obj and author_obj != user_obj:
+    if not follow_obj.exists() and author_obj != user_obj:
         Follow.objects.create(user=user_obj, author=author_obj)
     return redirect('posts:profile', username=author_obj.username)
 
@@ -161,6 +161,6 @@ def profile_unfollow(request, username):
         user=user_obj,
         author=author_obj
     )
-    if follow_obj:
+    if follow_obj.exists():
         follow_obj.delete()
     return redirect('posts:profile', username=author_obj.username)

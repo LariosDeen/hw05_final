@@ -19,23 +19,24 @@
       {% endif %}
     </h1>
     <h3>Всего постов: {{ posts_counter }} </h3>
-    {% if following %}
-      <a
-        class="btn btn-lg btn-outline-primary"
-        href="{% url 'posts:profile_unfollow' prof_author.username %}" role="button"
-      >
-        Отписаться
-      </a>
-    {% else %}
-      <a
-        class="btn btn-lg btn-primary"
-        href="{% url 'posts:profile_follow' prof_author.username %}" role="button"
-      >
-        Подписаться
-      </a>
-   {% endif %}
+    {% if request.user != prof_author %}
+      {% if following %}
+        <a
+          class="btn btn-lg btn-outline-primary"
+          href="{% url 'posts:profile_unfollow' prof_author.username %}" role="button"
+        >
+          Отписаться
+        </a>
+      {% else %}
+        <a
+          class="btn btn-lg btn-primary"
+          href="{% url 'posts:profile_follow' prof_author.username %}" role="button"
+        >
+          Подписаться
+        </a>
+      {% endif %}
+    {% endif %}
   </div>
-
   {% for post in page_obj %}
     <article>
       <ul>

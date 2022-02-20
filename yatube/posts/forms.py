@@ -18,9 +18,13 @@ class PostForm(ModelForm):
 
 
 class CommentForm(ModelForm):
+
     class Meta:
         model = Comment
         fields = ('text',)
+        help_texts = {
+            'text': 'Текст комментария',
+        }
         labels = {
-            "text": "Введите текст комментария",
+            'text': 'Введите текст комментария',
         }
