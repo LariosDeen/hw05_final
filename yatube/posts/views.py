@@ -10,12 +10,17 @@ from .forms import PostForm, CommentForm
 NUMBER_OF_POSTS: int = 10
 
 
+def paginator(request, post_list):
+    pagin = Paginator(post_list, NUMBER_OF_POSTS)
+    page_number = request.GET.get('page')
+    page_obj = pagin.get_page(page_number)
+    return page_obj
+
+
 @cache_page(20, key_prefix='index_page')
 def index(request):
     post_list = Post.objects.all()
-    paginator = Paginator(post_list, NUMBER_OF_POSTS)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator(request, post_list)
     context = {
         'page_obj': page_obj,
     }
@@ -26,9 +31,7 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     post_list = group.posts.all()
-    paginator = Paginator(post_list, NUMBER_OF_POSTS)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator(request, post_list)
     context = {
         'group': group,
         'page_obj': page_obj,
@@ -41,9 +44,7 @@ def profile(request, username):
     prof_author = get_object_or_404(User, username=username)
     posts_counter = prof_author.posts.count()
     post_list = prof_author.posts.all()
-    paginator = Paginator(post_list, NUMBER_OF_POSTS)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator(request, post_list)
     following = Follow.objects.filter(
         user=request.user.id,
         author=prof_author.id
@@ -130,9 +131,7 @@ def add_comment(request, post_id):
 @login_required
 def follow_index(request):
     post_list = Post.objects.filter(author__following__user=request.user)
-    paginator = Paginator(post_list, NUMBER_OF_POSTS)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator(request, post_list)
     template = 'posts/follow.html'
     content = {
         'page_obj': page_obj,

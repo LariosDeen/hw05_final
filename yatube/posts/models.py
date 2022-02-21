@@ -38,6 +38,7 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='posts',
         verbose_name='Автор',
+        help_text='Выберите автора',
     )
     group = models.ForeignKey(
         Group,
@@ -46,12 +47,13 @@ class Post(models.Model):
         null=True,
         related_name='posts',
         verbose_name='Группа',
-        help_text='Выберите группу',
+        help_text='Выберите группу (не обязательно)',
     )
     image = models.ImageField(
         'Картинка',
         upload_to='posts/',
-        blank=True
+        blank=True,
+        help_text='Выберите картинку (не обязательно)',
     )
 
     class Meta:

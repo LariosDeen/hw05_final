@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load thumbnail %}
+{% load user_filters %}
 {% block title %}
   Пост {{ one_post.text|truncatechars:31 }}
 {% endblock %}
