@@ -14,6 +14,11 @@ ALLOWED_HOSTS = [
 ]
 
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,6 +30,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'core',
     'sorl.thumbnail',
+    'debug_toolbar',
 ]
 
 
@@ -36,6 +42,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
